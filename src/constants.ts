@@ -7,6 +7,7 @@ enum Constants {
   mouseLeft = 'mouse_left',
   mouseRight = 'mouse_right',
   mousePosition = 'mouse_position',
+  printScreen = 'prnt_scrn',
 }
 
 export default Constants;

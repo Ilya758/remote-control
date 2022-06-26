@@ -5,6 +5,7 @@ import Constants from './constants';
 import { handleDrawCircle } from './utils/handleDrawCircle';
 import { handleDrawSquare } from './utils/handleDrawSquare';
 import { handleDrawRectangle } from './utils/handleDrawRectangle';
+import { handlePrintScreen } from './utils/handlePrintScreen';
 
 const wss = new WebSocketServer({ port: 5000 });
 const {
@@ -16,6 +17,7 @@ const {
   mouseRight,
   mouseUp,
   mousePosition,
+  printScreen,
 } = Constants;
 
 wss.on('connection', ws => {
@@ -84,6 +86,22 @@ wss.on('connection', ws => {
         handleDrawRectangle(delta, addDelta, mouseCoords.x, mouseCoords.y);
 
         ws.send(drawRectangle);
+
+        break;
+      }
+
+      case printScreen: {
+        handlePrintScreen(mouseCoords.x, mouseCoords.y)
+          .then((base: Buffer | unknown) => {
+            if (!(base instanceof Buffer)) {
+              throw new Error(
+                'There is an error occured during print screening'
+              );
+            }
+
+            ws.send(`${printScreen} ${base.toString('base64')}`);
+          })
+          .catch(console.log);
 
         break;
       }
