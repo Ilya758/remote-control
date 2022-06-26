@@ -15,6 +15,7 @@ const {
   mouseLeft,
   mouseRight,
   mouseUp,
+  mousePosition,
 } = Constants;
 
 wss.on('connection', ws => {
@@ -28,6 +29,12 @@ wss.on('connection', ws => {
     const mouseCoords = robotjs.getMousePos();
 
     switch (command) {
+      case mousePosition: {
+        ws.send(`${mousePosition} ${mouseCoords.x},${mouseCoords.y}`);
+
+        break;
+      }
+
       case mouseDown: {
         robotjs.moveMouse(mouseCoords.x, mouseCoords.y + fixedDelta);
 

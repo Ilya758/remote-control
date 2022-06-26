@@ -6,6 +6,7 @@ enum Constants {
   mouseUp = 'mouse_up',
   mouseLeft = 'mouse_left',
   mouseRight = 'mouse_right',
+  mousePosition = 'mouse_position',
 }
 
 export default Constants;
