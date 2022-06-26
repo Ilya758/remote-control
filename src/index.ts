@@ -7,7 +7,7 @@ import { handleDrawSquare } from './utils/handleDrawSquare';
 import { handleDrawRectangle } from './utils/handleDrawRectangle';
 import { handlePrintScreen } from './utils/handlePrintScreen';
 
-const wss = new WebSocketServer({ port: 5000 });
+const wss = new WebSocketServer({ port: 8080 });
 const {
   drawCircle,
   drawRectangle,
@@ -20,9 +20,11 @@ const {
   printScreen,
 } = Constants;
 
+console.log('WebSocketServer characteristics', wss.address());
+
 wss.on('connection', ws => {
   ws.on('message', data => {
-    console.log('received: %s', data);
+    console.log('received: %s', data, '\\0');
 
     const [command, delta, addDelta] = data.toString().split(' ');
 
