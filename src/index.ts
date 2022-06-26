@@ -3,15 +3,24 @@ import { WebSocketServer } from 'ws';
 import robotjs from 'robotjs';
 import Constants from './constants';
 import { handleDrawCircle } from './utils/handleDrawCircle';
+import { handleDrawSquare } from './utils/handleDrawSquare';
 
 const wss = new WebSocketServer({ port: 5000 });
-const { drawCircle, mouseDown, mouseLeft, mouseRight, mouseUp } = Constants;
+const {
+  drawCircle,
+  drawRectangle,
+  drawSquare,
+  mouseDown,
+  mouseLeft,
+  mouseRight,
+  mouseUp,
+} = Constants;
 
 wss.on('connection', ws => {
   ws.on('message', data => {
     console.log('received: %s', data);
 
-    const [command, delta] = data.toString().split(' ');
+    const [command, delta, addDelta] = data.toString().split(' ');
 
     const fixedDelta = Math.abs(+delta);
 
@@ -51,6 +60,14 @@ wss.on('connection', ws => {
         handleDrawCircle(Number(delta));
 
         ws.send(drawCircle);
+
+        break;
+      }
+
+      case drawSquare: {
+        handleDrawSquare(delta, mouseCoords.x, mouseCoords.y);
+
+        ws.send(drawRectangle);
 
         break;
       }
