@@ -1,4 +1,5 @@
 enum Constants {
+  drawRectangle = 'draw_rectangle',
   drawSquare = 'draw_square',
   drawCircle = 'draw_circle',
   mouseDown = 'mouse_down',

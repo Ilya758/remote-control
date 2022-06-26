@@ -4,6 +4,7 @@ import robotjs from 'robotjs';
 import Constants from './constants';
 import { handleDrawCircle } from './utils/handleDrawCircle';
 import { handleDrawSquare } from './utils/handleDrawSquare';
+import { handleDrawRectangle } from './utils/handleDrawRectangle';
 
 const wss = new WebSocketServer({ port: 5000 });
 const {
@@ -66,6 +67,14 @@ wss.on('connection', ws => {
 
       case drawSquare: {
         handleDrawSquare(delta, mouseCoords.x, mouseCoords.y);
+
+        ws.send(drawRectangle);
+
+        break;
+      }
+
+      case drawRectangle: {
+        handleDrawRectangle(delta, addDelta, mouseCoords.x, mouseCoords.y);
 
         ws.send(drawRectangle);
 
