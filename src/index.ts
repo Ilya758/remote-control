@@ -2,9 +2,10 @@
 import { WebSocketServer } from 'ws';
 import robotjs from 'robotjs';
 import Constants from './constants';
+import { handleDrawCircle } from './utils/handleDrawCircle';
 
 const wss = new WebSocketServer({ port: 5000 });
-const { mouseDown, mouseLeft, mouseRight, mouseUp } = Constants;
+const { drawCircle, mouseDown, mouseLeft, mouseRight, mouseUp } = Constants;
 
 wss.on('connection', ws => {
   ws.on('message', data => {
@@ -43,6 +44,14 @@ wss.on('connection', ws => {
         robotjs.moveMouse(mouseCoords.x + fixedDelta, mouseCoords.y);
 
         ws.send(mouseRight);
+        break;
+      }
+
+      case drawCircle: {
+        handleDrawCircle(Number(delta));
+
+        ws.send(drawCircle);
+
         break;
       }
 
